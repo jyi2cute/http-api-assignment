@@ -78,13 +78,13 @@ const getNotFound = (request, response) => {
   respond(request, response, 404, 'The page you were looking for is not found.', false);
 };
 
-const getIndex = (response) => {
+const getIndex = (request, response) => {
   const index = fs.readFileSync(path.join(__dirname, '/../client/client.html'));
   response.writeHead(200, { 'Content-Type': 'text/html' });
   response.end(index);
 };
 
-const getStyle = (response) => {
+const getStyle = (request, response) => {
   const style = fs.readFileSync(path.join(__dirname, '/../client/style.css'));
   response.writeHead(200, { 'Content-Type': 'text/css' });
   response.end(style);
