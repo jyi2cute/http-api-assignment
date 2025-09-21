@@ -12,7 +12,6 @@ const urlStruct = {
   '/forbidden': responsesHandler.getForbidden,
   '/internal': responsesHandler.getInternal,
   '/notImplemented': responsesHandler.getNotImplemented,
-
 };
 
 const onRequest = (request, response) => {
