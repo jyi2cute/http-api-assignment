@@ -1,0 +1,27 @@
+{
+  "name": "http-api-assignment",
+  "version": "1.0.0",
+  "description": "http-api-assignment",
+  "homepage": "https://github.com/jyi2cute/http-api-assignment#readme",
+  "bugs": {
+    "url": "https://github.com/jyi2cute/http-api-assignment/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jyi2cute/http-api-assignment.git"
+  },
+  "license": "UNLICENSED",
+  "author": "Jin Yi",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"No Tests\""
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.32.0"
+  }
+}

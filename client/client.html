@@ -5,7 +5,82 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    const handleResponse = async (response) => {
+      const content = document.querySelector('#content');
 
+      const contentType = response.headers.get('Content-Type');
+      const rawText = await response.text();
+
+      console.log("Raw Response Body:");
+      console.log(rawText);
+
+      content.innerHTML = '';
+
+      let message = '';
+      if (contentType.includes('application/json')) {
+        try {
+          const data = JSON.parse(rawText);
+          message = data.message;
+        } catch(e) {
+          message = `Error: Invalid JSON received.`;
+          console.error('Error parsing JSON:', e);
+        }
+        
+      } else if (contentType.includes('application/xml')) {
+        try {
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(rawText, 'text/xml');
+          const messageElement = xmlDoc.querySelector('message');
+          if(messageElement) {
+            message = messageElement.textContent;
+          } else {
+            message = 'Error: <message> tag not found in XML.';
+          }
+        } catch (e) {
+          message = `Error: Invalid XML received.`;
+          console.error('Error parsing XML:', e);
+        }
+      } else {
+        message = `Unexpected response format ${contentType}`;
+      }
+
+      const h3 = document.createElement('h3');
+      h3.textContent = message;
+      content.appendChild(h3);
+    };
+
+    const sendRequest = async () => {
+      const pageSelect = document.querySelector('#page');
+      const typeSelect = document.querySelector('#type');
+
+      const page = pageSelect.value;
+      const type = typeSelect.value;
+
+      const url = window.location.origin + page;
+      
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Accept': type
+          }
+        });
+        
+        await handleResponse(response);
+
+      } catch (error) {
+        const content = document.querySelector('#content');
+        content.innerHTML = `<h3>Network Error: Could not reach the server.</h3>`;
+        console.error('Fetch error:', error);
+      }
+    };
+
+    const init = () => {
+      const sendButton = document.querySelector('#send');
+      sendButton.addEventListener('click', sendRequest);
+    };
+
+    window.onload = init;
   </script>
 </head>
 <body>
